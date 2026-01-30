@@ -8,11 +8,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&family=Syncopate:wght@700&display=swap');
 
         :root { 
-            --accent: #bc13fe; /* Dynamic */
-            --green: #39ff14; --purple: #bc13fe; --gold: #ffd700; --red: #ff0000;
-            --bg: #020202; /* Dynamic */
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
+            --accent: #bc13fe; --green: #39ff14; --purple: #bc13fe; --gold: #ffd700; --red: #ff0000;
+            --bg: #020202; --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -31,36 +28,28 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer;
         }
 
-        .nav-links { display: flex; gap: 30px; align-items: center; }
-        .nav-links a { font-size: 11px; font-weight: 800; cursor: pointer; letter-spacing: 2px; text-decoration: none; color: white; }
-
         .page-view { display: none; padding: 60px 8%; min-height: 85vh; }
         .page-view.active { display: block; animation: fadeIn 0.8s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .card { 
-            background: var(--glass); border-radius: 30px; overflow: hidden; 
-            border: 1px solid var(--border); transition: 0.4s; position: relative; height: 500px; cursor: pointer;
-        }
+        .card { background: var(--glass); border-radius: 30px; overflow: hidden; border: 1px solid var(--border); transition: 0.4s; position: relative; height: 500px; cursor: pointer; }
         .card img { width: 100%; height: 100%; object-fit: cover; }
         
         .stock-badge { position: absolute; top: 20px; right: 20px; padding: 8px 15px; border-radius: 50px; font-size: 10px; font-weight: 800; z-index: 10; }
-        .stock-low { background: var(--red); color: white; animation: pulse 1.5s infinite; }
+        .stock-low { background: var(--red); color: white; }
         .stock-out { background: #333; color: #999; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* Admin UI */
         #admin-panel { display: none; position: fixed; inset: 0; background: #000; z-index: 5000; padding: 40px 8%; overflow-y: auto; }
-        .admin-section { background: #0a0a0a; padding: 30px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 30px; }
-        input, select, textarea { width: 100%; padding: 15px; margin: 10px 0; background: #111; border: 1px solid var(--border); color: white; border-radius: 10px; }
+        .admin-section { background: #0a0a0a; padding: 25px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 25px; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; background: #111; border: 1px solid var(--border); color: white; border-radius: 8px; font-size: 13px; }
         
-        .btn { padding: 16px 35px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 11px; letter-spacing: 2px; }
+        .btn { padding: 15px 30px; border-radius: 10px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 10px; letter-spacing: 2px; }
         .btn-gold { background: var(--gold); color: #000; }
         .btn-outline { background: transparent; border: 1px solid var(--border); color: white; }
 
-        .thumb-strip { display: flex; gap: 10px; margin-top: 15px; overflow-x: auto; padding-bottom: 5px; }
-        .thumb-strip img { width: 60px; height: 80px; object-fit: cover; border-radius: 5px; }
+        .thumb-strip { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; }
+        .thumb-strip img { width: 50px; height: 65px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); }
     </style>
 </head>
 <body>
@@ -69,54 +58,56 @@
 
     <nav class="navbar">
         <a onclick="showPage('home')" class="logo">AURA EXOTIX</a>
-        <div class="nav-links">
-            <a onclick="showPage('home')">HOME</a>
-            <a onclick="showPage('catalog')">CATALOG</a>
-            <a onclick="showPage('contact')">CONTACT</a>
-            <img id="userPfp" style="width:30px; border-radius:50%; display:none; cursor:pointer;" onclick="toggleAdmin()">
+        <div style="display: flex; gap: 25px; align-items: center;">
+            <a onclick="showPage('home')" style="font-size: 10px; font-weight: 800; cursor: pointer; color: white; text-decoration: none;">HOME</a>
+            <a onclick="showPage('catalog')" style="font-size: 10px; font-weight: 800; cursor: pointer; color: white; text-decoration: none;">CATALOG</a>
+            <a onclick="showPage('contact')" style="font-size: 10px; font-weight: 800; cursor: pointer; color: white; text-decoration: none;">CONTACT</a>
+            <img id="userPfp" style="width:30px; border-radius:50%; display:none; cursor:pointer; border: 1px solid var(--gold);" onclick="toggleAdmin()">
         </div>
     </nav>
 
     <div id="admin-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
-            <h1 class="logo">COMMAND CENTER</h1>
-            <button class="btn btn-gold" onclick="saveAndExit()">SAVE & EXIT</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <h1 class="logo">BRAND CMS</h1>
+            <button class="btn btn-gold" onclick="saveAndExit()">SAVE CHANGES</button>
         </div>
 
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:30px;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:25px;">
             <div class="admin-section">
-                <h3 style="color:var(--gold); margin-bottom:20px;">UI THEME ENGINE</h3>
-                <label>Header Accent Color</label>
-                <select onchange="updateUI('accent', this.value)">
-                    <option value="var(--purple)">Royal Purple</option>
-                    <option value="var(--green)">Neon Green</option>
-                    <option value="var(--gold)">Imperial Gold</option>
-                    <option value="var(--red)">Deep Red</option>
-                </select>
-                <label>Background Environment</label>
-                <select onchange="updateUI('bg', this.value)">
-                    <option value="#020202">Deep Void (Black)</option>
-                    <option value="#1a1a1a">Cyber Gray</option>
-                </select>
-                <h4 style="margin:20px 0 10px 0;">Promo Banner</h4>
-                <input type="text" id="adm-banner-text" placeholder="Banner Text" oninput="updateBannerData()">
-                <button class="btn btn-outline" style="width:100%" onclick="toggleBannerVisibility()">Toggle Banner</button>
+                <h3 style="color:var(--gold); margin-bottom:15px;">WEBSITE COPY & THEME</h3>
+                <label>Main Headline (Line 1)</label>
+                <input type="text" id="copy-h1" placeholder="e.g. STYLE" oninput="updateCopy()">
+                <label>Main Headline (Accent Line)</label>
+                <input type="text" id="copy-h1-accent" placeholder="e.g. EVOLVED" oninput="updateCopy()">
+                <label>Promo Text</label>
+                <input type="text" id="copy-promo" placeholder="e.g. PREMIUM LOOKBOOK" oninput="updateCopy()">
+                <label>Header Theme</label>
+                <select onchange="updateUI('accent', this.value)"><option value="var(--purple)">Purple</option><option value="var(--green)">Green</option><option value="var(--gold)">Gold</option><option value="var(--red)">Red</option></select>
+                <button class="btn btn-outline" style="width:100%; margin-top:10px;" onclick="toggleBannerVisibility()">Toggle Promo Banner</button>
             </div>
 
             <div class="admin-section">
-                <h3 style="color:var(--green); margin-bottom:20px;">INVENTORY CONTROL</h3>
-                <button class="btn btn-outline" style="width:100%; border-color:var(--green); color:var(--green);" onclick="addNewProduct()">+ DROP NEW PRODUCT</button>
-                <div id="admin-product-list" style="margin-top:20px;"></div>
+                <h3 style="color:var(--green); margin-bottom:15px;">CONTACT & GMAIL</h3>
+                <input type="text" id="adm-insta" placeholder="Instagram Handle" oninput="updateCopy()">
+                <input type="text" id="adm-whatsapp" placeholder="WhatsApp Number" oninput="updateCopy()">
+                <input type="text" id="adm-gmail1" placeholder="Primary Gmail" oninput="updateCopy()">
+                <input type="text" id="adm-gmail2" placeholder="Secondary Gmail" oninput="updateCopy()">
             </div>
+        </div>
+
+        <div class="admin-section">
+            <h3 style="color:var(--purple); margin-bottom:15px;">PRODUCT VAULT</h3>
+            <button class="btn btn-outline" style="width:100%; border-color:var(--green); color:var(--green); margin-bottom:15px;" onclick="addNewProduct()">+ ADD PRODUCT</button>
+            <div id="admin-product-list"></div>
         </div>
     </div>
 
     <section id="home" class="page-view active">
-        <div style="height: 70vh; display: flex; flex-direction: column; justify-content: center;">
-            <p style="color:var(--accent); font-weight:800; letter-spacing:5px;">PREMIUM LOOKBOOK</p>
-            <h1 style="font-family:'Syncopate'; font-size: clamp(3rem, 10vw, 7rem); line-height: 0.9; margin: 20px 0;">STYLE<br><span style="color:var(--gold)">EVOLVED</span></h1>
-            <button class="btn btn-gold" style="width: fit-content;" onclick="showPage('catalog')">View Drops</button>
-        </div>
+        <p id="view-promo" style="color:var(--accent); font-weight:800; letter-spacing:5px;">PREMIUM LOOKBOOK</p>
+        <h1 style="font-family:'Syncopate'; font-size: clamp(3rem, 10vw, 7rem); line-height: 0.9; margin: 20px 0;">
+            <span id="view-h1">STYLE</span><br><span id="view-h1-accent" style="color:var(--gold)">EVOLVED</span>
+        </h1>
+        <button class="btn btn-gold" onclick="showPage('catalog')">View Drops</button>
     </section>
 
     <section id="catalog" class="page-view">
@@ -126,14 +117,25 @@
 
     <section id="contact" class="page-view">
         <div style="max-width: 600px; background: var(--glass); padding: 40px; border-radius: 30px; border: 1px solid var(--border);">
-            <h2 style="font-family:'Syncopate'; margin-bottom: 20px;">CONNECT</h2>
-            <p style="color:var(--gold); margin-bottom:10px;">INSTAGRAM: @auraexotix</p>
-            <p>WHATSAPP: +91 9099090334</p>
+            <h2 style="font-family:'Syncopate'; margin-bottom: 30px;">DIRECT LINE</h2>
+            <div style="margin-bottom:20px;">
+                <p style="font-size:10px; color:var(--gold); letter-spacing:2px;">INSTAGRAM</p>
+                <p id="view-insta" style="font-size:1.2rem; color:var(--accent)">@auraexotix</p>
+            </div>
+            <div style="margin-bottom:20px;">
+                <p style="font-size:10px; color:var(--gold); letter-spacing:2px;">WHATSAPP</p>
+                <p id="view-whatsapp" style="font-size:1.2rem;">+91 9099090334</p>
+            </div>
+            <div>
+                <p style="font-size:10px; color:var(--gold); letter-spacing:2px;">SUPPORT EMAILS</p>
+                <p id="view-gmail1">shauryavalecha923@gmail.com</p>
+                <p id="view-gmail2">shauryave1717@gmail.com</p>
+            </div>
         </div>
     </section>
 
     <div id="product-page" style="display:none; position:fixed; inset:0; background:var(--bg); z-index:2000; overflow-y:auto; padding:60px 8%;">
-        <button class="btn btn-outline" onclick="closeProductPage()" style="margin-bottom:40px;">← CLOSE</button>
+        <button class="btn btn-outline" onclick="closeProductPage()" style="margin-bottom:30px; color:var(--red); border-color:var(--red);">← BACK</button>
         <div id="product-content"></div>
     </div>
 
@@ -147,96 +149,101 @@
         const provider = new GoogleAuthProvider();
         const admins = ['shauryavalecha923@gmail.com', 'shauryave1717@gmail.com'];
 
+        let siteData = {
+            h1: "STYLE", h1Accent: "EVOLVED", promo: "PREMIUM LOOKBOOK",
+            insta: "@auraexotix", whatsapp: "+91 9099090334",
+            gmail1: "shauryavalecha923@gmail.com", gmail2: "shauryave1717@gmail.com"
+        };
+
         let products = [{ id: 1, name: 'AURA HOODIE 0.1', price: 2999, imgs: ['https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800'], sizes: ['M', 'L', 'XL'], desc: 'Heavyweight velvet cotton.', stock: 5 }];
-        let banner = { text: "LIMITED DROP LIVE", visible: false };
+        let bannerVisible = false;
 
         onAuthStateChanged(auth, (user) => {
-            if(user) {
+            if(user && admins.includes(user.email)) {
                 const pfp = document.getElementById('userPfp');
                 pfp.src = user.photoURL;
-                pfp.style.display = admins.includes(user.email) ? 'block' : 'none';
+                pfp.style.display = 'block';
+                initAdminFields();
             }
         });
 
-        window.updateUI = (type, val) => {
-            document.documentElement.style.setProperty(`--${type}`, val);
-            if(type === 'bg') document.getElementById('product-page').style.background = val;
+        function initAdminFields() {
+            document.getElementById('copy-h1').value = siteData.h1;
+            document.getElementById('copy-h1-accent').value = siteData.h1Accent;
+            document.getElementById('copy-promo').value = siteData.promo;
+            document.getElementById('adm-insta').value = siteData.insta;
+            document.getElementById('adm-whatsapp').value = siteData.whatsapp;
+            document.getElementById('adm-gmail1').value = siteData.gmail1;
+            document.getElementById('adm-gmail2').value = siteData.gmail2;
+        }
+
+        window.updateCopy = () => {
+            siteData.h1 = document.getElementById('copy-h1').value;
+            siteData.h1Accent = document.getElementById('copy-h1-accent').value;
+            siteData.promo = document.getElementById('copy-promo').value;
+            siteData.insta = document.getElementById('adm-insta').value;
+            siteData.whatsapp = document.getElementById('adm-whatsapp').value;
+            siteData.gmail1 = document.getElementById('adm-gmail1').value;
+            siteData.gmail2 = document.getElementById('adm-gmail2').value;
+
+            document.getElementById('view-h1').innerText = siteData.h1;
+            document.getElementById('view-h1-accent').innerText = siteData.h1Accent;
+            document.getElementById('view-promo').innerText = siteData.promo;
+            document.getElementById('view-insta').innerText = siteData.insta;
+            document.getElementById('view-whatsapp').innerText = siteData.whatsapp;
+            document.getElementById('view-gmail1').innerText = siteData.gmail1;
+            document.getElementById('view-gmail2').innerText = siteData.gmail2;
         };
 
-        window.updateBannerData = () => {
-            banner.text = document.getElementById('adm-banner-text').value;
-            const bEl = document.getElementById('promo-banner');
-            bEl.innerText = banner.text;
-            bEl.style.backgroundColor = 'var(--accent)';
-        };
-
-        window.toggleBannerVisibility = () => {
-            banner.visible = !banner.visible;
-            document.getElementById('promo-banner').style.display = banner.visible ? 'block' : 'none';
-        };
+        window.updateUI = (type, val) => document.documentElement.style.setProperty(`--${type}`, val);
+        window.toggleBannerVisibility = () => { bannerVisible = !bannerVisible; document.getElementById('promo-banner').style.display = bannerVisible ? 'block' : 'none'; };
 
         window.addNewProduct = () => {
-            products.unshift({ id: Date.now(), name: 'New Drop', price: 0, imgs: [], sizes: ['S','M','L','XL'], desc: '', stock: 10 });
-            renderAdminList();
-            renderStore();
+            products.unshift({ id: Date.now(), name: 'New Item', price: 0, imgs: [], sizes: ['S','M','L','XL'], desc: '', stock: 5 });
+            renderAdminList(); renderStore();
         };
 
         window.handleMultiImage = (input, idx) => {
-            const files = Array.from(input.files);
-            products[idx].imgs = files.map(f => URL.createObjectURL(f));
+            products[idx].imgs = Array.from(input.files).map(f => URL.createObjectURL(f));
             renderAdminList();
         };
 
         window.renderAdminList = () => {
             const list = document.getElementById('admin-product-list');
             list.innerHTML = products.map((p, i) => `
-                <div style="background:#111; padding:15px; border-radius:15px; margin-bottom:15px; border:1px solid #333;">
+                <div style="background:#111; padding:15px; border-radius:15px; margin-bottom:10px; border:1px solid #333;">
                     <input type="text" value="${p.name}" oninput="products[${i}].name=this.value; renderStore();">
                     <input type="number" placeholder="Stock" value="${p.stock}" oninput="products[${i}].stock=Number(this.value); renderStore();">
                     <input type="number" placeholder="Price" value="${p.price}" oninput="products[${i}].price=Number(this.value); renderStore();">
                     <input type="file" multiple onchange="handleMultiImage(this, ${i})">
                     <div class="thumb-strip">${p.imgs.map(img => `<img src="${img}">`).join('')}</div>
-                    <button class="btn" style="color:var(--red); font-size:9px;" onclick="products.splice(${i},1); renderAdminList(); renderStore();">DELETE</button>
-                </div>
-            `).join('');
+                    <button style="color:red; background:none; border:none; margin-top:10px; cursor:pointer;" onclick="products.splice(${i},1); renderAdminList(); renderStore();">Purge</button>
+                </div>`).join('');
         };
 
         window.renderStore = () => {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = products.map((p, i) => {
                 let badge = p.stock <= 0 ? '<div class="stock-badge stock-out">SOLD OUT</div>' : (p.stock < 5 ? `<div class="stock-badge stock-low">ONLY ${p.stock} LEFT</div>` : '');
-                return `<div class="card" onclick="openProductPage(${i})">${badge}<img src="${p.imgs[0] || 'https://via.placeholder.com/400x500'}"><div style="padding:20px; position:absolute; bottom:0; width:100%; background:linear-gradient(transparent, rgba(0,0,0,0.9))"><h3>${p.name}</h3><p style="color:var(--green)">₹${p.price}</p></div></div>`;
+                return `<div class="card" onclick="openProductPage(${i})">${badge}<img src="${p.imgs[0] || ''}"><div style="padding:20px; position:absolute; bottom:0; width:100%; background:linear-gradient(transparent, rgba(0,0,0,0.9))"><h3>${p.name}</h3><p style="color:var(--green)">₹${p.price}</p></div></div>`;
             }).join('');
         };
 
         window.openProductPage = (i) => {
             const p = products[i];
-            const isOut = p.stock <= 0;
             document.getElementById('product-content').innerHTML = `
                 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:40px;">
-                    <div>
-                        <img id="main-view" src="${p.imgs[0]}" style="width:100%; border-radius:20px;">
-                        <div class="thumb-strip">${p.imgs.map(img => `<img src="${img}" onclick="document.getElementById('main-view').src='${img}'">`).join('')}</div>
-                    </div>
-                    <div>
-                        <h1 style="color:var(--gold); font-family:'Syncopate';">${p.name}</h1>
-                        <h2 style="margin:20px 0;">₹${p.price}</h2>
-                        <div style="display:flex; gap:10px; margin-bottom:30px;">${p.sizes.map(s => `<div class="size-chip">${s}</div>`).join('')}</div>
-                        ${isOut ? `<button class="btn" style="background:#222; color:#666; width:100%;">UNAVAILABLE</button>` : `<button class="btn btn-gold" style="width:100%;" onclick="window.location.href='upi://pay?pa=9099090334@fam&pn=AURA&am=${p.price}'">BUY NOW</button>`}
-                    </div>
+                    <div><img id="main-view" src="${p.imgs[0] || ''}" style="width:100%; border-radius:20px;"><div class="thumb-strip">${p.imgs.map(img => `<img src="${img}" onclick="document.getElementById('main-view').src='${img}'">`).join('')}</div></div>
+                    <div><h1 style="color:var(--gold); font-family:'Syncopate';">${p.name}</h1><h2 style="margin:20px 0;">₹${p.price}</h2>
+                    <button class="btn btn-gold" style="width:100%;" onclick="window.location.href='upi://pay?pa=9099090334@fam&pn=AURA&am=${p.price}'">BUY NOW</button></div>
                 </div>`;
             document.getElementById('product-page').style.display = 'block';
         };
 
-        window.showPage = (id) => {
-            document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-        };
-
+        window.showPage = (id) => { document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); };
         window.toggleAdmin = () => { document.getElementById('admin-panel').style.display = 'block'; renderAdminList(); };
         window.saveAndExit = () => document.getElementById('admin-panel').style.display = 'none';
         window.closeProductPage = () => document.getElementById('product-page').style.display = 'none';
-
         renderStore();
     </script>
 </body>
