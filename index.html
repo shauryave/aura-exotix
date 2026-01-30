@@ -3,127 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA EXOTIX | Premium Streetwear</title>
-    
+    <title>AURA EXOTIX | Digital Streetwear</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Syncopate:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&family=Syncopate:wght@700&display=swap');
 
         :root { 
-            --accent: #ff007f; 
-            --dark: #050505;
-            --glass: rgba(255,255,255,0.03);
-            --border: rgba(255,255,255,0.08);
-            --glow: 0 0 20px rgba(255, 0, 127, 0.3);
+            --pink: #ff007f; 
+            --purple: #bc13fe;
+            --olive: #dfff11; 
+            --dark: #080808;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --neon-glow: 0 0 15px rgba(223, 255, 17, 0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background: var(--dark); color: white; overflow-x: hidden; }
 
-        /* Login Overlay */
         #auth-overlay {
-            position: fixed; inset: 0; background: #000; z-index: 9000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; transition: 0.5s;
+            position: fixed; inset: 0; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: 0.8s cubic-bezier(0.87, 0, 0.13, 1);
         }
 
-        /* Navbar & Global UI */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border); }
-        .logo { font-family: 'Syncopate', sans-serif; font-size: 1.2rem; letter-spacing: 4px; color: #fff; text-decoration: none; text-shadow: var(--glow); cursor: pointer; }
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        .user-pfp { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); cursor: pointer; }
+        .navbar { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 20px 8%; background: rgba(8, 8, 8, 0.8); backdrop-filter: blur(15px);
+            position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border);
+        }
+        .logo { 
+            font-family: 'Syncopate', sans-serif; font-size: 1.1rem; letter-spacing: 5px; 
+            background: linear-gradient(90deg, var(--olive), var(--purple), var(--pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer;
+        }
 
-        /* Layouts */
-        .page-view { display: none; padding: 40px 8%; min-height: 80vh; }
-        .page-view.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .page-view { display: none; padding: 40px 8%; min-height: 85vh; }
+        .page-view.active { display: block; animation: slideUp 0.6s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: var(--glass); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); transition: 0.4s; cursor: pointer; }
-        .card img { width: 100%; height: 400px; object-fit: cover; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        .card { 
+            background: var(--glass); border-radius: 24px; overflow: hidden; 
+            border: 1px solid var(--border); transition: 0.5s; cursor: pointer; position: relative;
+        }
+        .card:hover { border-color: var(--olive); box-shadow: var(--neon-glow); transform: scale(1.02); }
+        .card img { width: 100%; height: 450px; object-fit: cover; transition: 0.5s; }
+        .card-meta { padding: 25px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); position: absolute; bottom: 0; width: 100%; }
 
-        /* Admin Dashboard */
-        #admin-panel { display: none; position: fixed; inset: 0; background: #000; z-index: 5000; padding: 40px 8%; overflow-y: auto; }
-        .admin-nav { display: flex; gap: 20px; border-bottom: 1px solid #222; margin-bottom: 30px; }
-        .nav-tab { padding: 10px 20px; cursor: pointer; opacity: 0.5; font-weight: 700; font-size: 11px; }
-        .nav-tab.active { opacity: 1; border-bottom: 2px solid var(--accent); }
+        .btn { 
+            padding: 14px 30px; border-radius: 12px; border: none; font-weight: 800; 
+            cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;
+        }
+        .btn-olive { background: var(--olive); color: #000; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: white; }
 
-        /* Payment UI */
-        .pay-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
-        .pay-tab { flex: 1; padding: 12px; background: #111; border: 1px solid #222; border-radius: 8px; text-align: center; font-size: 10px; cursor: pointer; }
-        .pay-tab.active { border-color: var(--accent); background: rgba(255, 0, 127, 0.1); }
+        #admin-panel { display: none; position: fixed; inset: 0; background: var(--dark); z-index: 5000; padding: 50px 8%; overflow-y: auto; }
+        input, textarea { 
+            width: 100%; padding: 16px; margin: 12px 0; background: #121212; 
+            border: 1px solid var(--border); color: white; border-radius: 12px;
+        }
 
-        /* Buttons & Forms */
-        .btn { padding: 12px 24px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 11px; }
-        .btn-accent { background: var(--accent); color: white; box-shadow: var(--glow); }
-        .btn-outline { background: transparent; border: 1px solid #333; color: white; }
-        input, textarea, select { width: 100%; padding: 14px; margin: 10px 0; background: #111; border: 1px solid #222; color: white; border-radius: 8px; font-size: 13px; }
+        .pay-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 25px 0; }
+        .pay-option { 
+            padding: 15px; border: 1px solid var(--border); border-radius: 12px; 
+            text-align: center; cursor: pointer; transition: 0.3s; font-size: 11px; font-weight: 700;
+        }
+        .pay-option.active { background: var(--purple); border-color: var(--purple); color: white; }
 
-        #product-page { display: none; position: fixed; inset: 0; background: #000; z-index: 2000; overflow-y: auto; padding: 5% 8%; }
-        footer { padding: 40px; text-align: center; opacity: 0.4; font-size: 10px; letter-spacing: 2px; }
+        .user-pfp { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--olive); cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="auth-overlay">
-        <h1 class="logo" style="font-size: 3rem; margin-bottom: 10px;">AURA EXOTIX</h1>
-        <p style="opacity: 0.5; margin-bottom: 30px; letter-spacing: 2px;">AUTHENTICATE TO ACCESS THE VAULT</p>
-        <button id="googleLogin" class="btn btn-accent" style="font-size: 14px; padding: 15px 40px;">LOGIN WITH GOOGLE</button>
+        <div style="text-align:center; background: var(--glass); padding: 50px; border-radius: 30px; border: 1px solid var(--border); backdrop-filter: blur(20px);">
+            <h1 class="logo" style="font-size: 3rem; margin-bottom: 20px;">AURA EXOTIX</h1>
+            <button id="googleLogin" class="btn btn-olive" style="width: 100%;">Connect with Google</button>
+        </div>
     </div>
 
     <nav class="navbar">
-        <a onclick="showPage('home')" class="logo">AURA EXOTIX</a>
-        <div class="nav-links">
-            <a onclick="showPage('home')">HOME</a>
-            <a onclick="showPage('catalog')">CATALOG</a>
-            <a onclick="showPage('contact')">CONTACT</a>
-            <img id="userPfp" class="user-pfp" onclick="toggleAdmin()" title="Admin Dashboard">
+        <a onclick="showPage('home')" class="logo">AURA</a>
+        <div style="display: flex; gap: 30px; align-items: center;">
+            <a onclick="showPage('catalog')" style="font-size: 11px; font-weight: 700; cursor: pointer;">CATALOG</a>
+            <a onclick="showPage('contact')" style="font-size: 11px; font-weight: 700; cursor: pointer;">CONTACT</a>
+            <img id="userPfp" class="user-pfp" onclick="toggleAdmin()" style="display: none;">
         </div>
     </nav>
 
     <section id="home" class="page-view active">
-        <div style="height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-            <h1 style="font-family:'Syncopate'; font-size: clamp(2rem, 8vw, 5rem); line-height: 1;">THE FUTURE OF<br><span style="color:var(--accent)">STREETWEAR</span></h1>
-            <button class="btn btn-accent" style="margin-top:30px;" onclick="showPage('catalog')">SHOP THE DROP</button>
+        <div style="height: 70vh; display: flex; flex-direction: column; justify-content: center;">
+            <h1 style="font-family:'Syncopate'; font-size: clamp(3rem, 10vw, 7rem); line-height: 0.9;">NEON<br><span style="color:var(--olive)">VINTAGE</span></h1>
+            <button class="btn btn-olive" style="width: fit-content; margin-top: 30px;" onclick="showPage('catalog')">View Collection</button>
         </div>
     </section>
 
     <section id="catalog" class="page-view">
-        <h2 style="font-family:'Syncopate'; margin-bottom: 40px; font-size: 1.2rem;">CURRENT DROPS</h2>
+        <h2 style="font-family:'Syncopate'; margin-bottom: 50px; font-size: 1.5rem; color: var(--purple);">ACTIVE DROPS</h2>
         <div class="grid" id="product-grid"></div>
     </section>
 
     <section id="contact" class="page-view">
-        <div style="max-width: 600px; margin: auto;">
-            <h2 style="font-family:'Syncopate'; margin-bottom: 20px; text-align: center;">CONTACT US</h2>
+        <div style="max-width: 500px; margin: auto;">
+            <h2 style="font-family:'Syncopate'; margin-bottom: 30px;">GET IN TOUCH</h2>
             <input type="text" placeholder="NAME">
-            <input type="email" placeholder="EMAIL">
             <textarea placeholder="MESSAGE" rows="5"></textarea>
-            <button class="btn btn-accent" style="width: 100%;">SEND MESSAGE</button>
+            <button class="btn btn-olive" style="width: 100%; margin-top: 20px;">Send Transmission</button>
         </div>
     </section>
 
     <div id="admin-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-            <h1 class="logo">ADMIN VAULT</h1>
-            <button class="btn btn-accent" onclick="toggleAdmin()">EXIT DASHBOARD</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
+            <h1 class="logo">COMMAND CENTER</h1>
+            <button class="btn btn-olive" onclick="saveAndExit()">SAVE & EXIT</button>
         </div>
-        <div class="admin-nav">
-            <div class="nav-tab active" onclick="switchTab('inv', this)">PRODUCT MANAGEMENT</div>
-            <div class="nav-tab" onclick="switchTab('set', this)">STORE SETTINGS</div>
-        </div>
-
-        <div id="inv" class="section-panel active">
-            <button class="btn btn-outline" style="margin-bottom:20px;" onclick="addProduct()">+ CREATE NEW PRODUCT</button>
-            <div id="admin-list" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;"></div>
-        </div>
+        <button class="btn btn-outline" style="margin-bottom:30px; border-color:var(--olive); color:var(--olive);" onclick="addProduct()">+ NEW PRODUCT ENTRY</button>
+        <div id="admin-list" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap:25px;"></div>
     </div>
 
-    <div id="product-page">
-        <button class="btn btn-outline" style="margin-bottom: 30px;" onclick="closeProductPage()">← BACK</button>
+    <div id="product-page" style="display: none; position: fixed; inset: 0; background: var(--dark); z-index: 2000; overflow-y: auto; padding: 60px 8%;">
+        <button class="btn btn-outline" onclick="closeProductPage()" style="margin-bottom: 40px;">← Back</button>
         <div id="product-content"></div>
     </div>
-
-    <footer>© 2024 AURA EXOTIX • ALL RIGHTS RESERVED</footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -142,16 +143,16 @@
         const admins = ['shauryavalecha923@gmail.com', 'shauryave1717@gmail.com'];
 
         let products = [
-            { id: 1, name: 'Royal Purple Set', price: 1899, imgs: ['4031.jpg'], desc: 'Luxe velvet drop.', soldOut: false },
-            { id: 2, name: 'Maroon Glamour', price: 2499, imgs: ['4032.jpg'], desc: 'Premium hand-stitched.', soldOut: false }
+            { id: 1, name: 'Cyber Purple Hoodie', price: 2199, imgs: ['https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800'], desc: 'Heavyweight neon-infused cotton.' },
+            { id: 2, name: 'Toxic Olive Cargos', price: 3499, imgs: ['https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=800'], desc: 'Multi-pocket tactical fit.' }
         ];
 
         onAuthStateChanged(auth, (user) => {
             if(user) {
-                document.getElementById('auth-overlay').style.opacity = '0';
-                setTimeout(() => document.getElementById('auth-overlay').style.display = 'none', 500);
-                document.getElementById('userPfp').src = user.photoURL;
-                if(!admins.includes(user.email)) document.getElementById('userPfp').style.display = 'none';
+                document.getElementById('auth-overlay').style.transform = 'translateY(-100%)';
+                const pfp = document.getElementById('userPfp');
+                pfp.src = user.photoURL;
+                pfp.style.display = admins.includes(user.email) ? 'block' : 'none';
             }
         });
 
@@ -160,10 +161,11 @@
         window.showPage = (id) => {
             document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+            renderStore();
         };
 
         window.addProduct = () => {
-            products.unshift({ id: Date.now(), name: 'New Item', price: 0, imgs: [''], desc: 'Description...', soldOut: false });
+            products.unshift({ id: Date.now(), name: 'Vault Item', price: 0, imgs: [''], desc: 'New Drop Description...' });
             renderStore();
         };
 
@@ -174,6 +176,12 @@
             }
         };
 
+        window.saveAndExit = () => {
+            renderStore(); // Final sync before closing
+            document.getElementById('admin-panel').style.display = 'none';
+            alert("Protocol: Changes Synchronized Successfully.");
+        };
+
         function renderStore() {
             const grid = document.getElementById('product-grid');
             const adminList = document.getElementById('admin-list');
@@ -182,20 +190,21 @@
             products.forEach((p, index) => {
                 grid.innerHTML += `
                     <div class="card" onclick="openProductPage(${index})">
-                        <img src="${p.imgs[0] || 'https://via.placeholder.com/400'}">
-                        <div style="padding:20px; text-align:center;">
-                            <h3 style="font-size:12px; letter-spacing:2px;">${p.name}</h3>
-                            <p style="color:var(--accent); font-weight:bold; margin-top:5px;">₹${p.price}</p>
+                        <img src="${p.imgs[0] || 'https://via.placeholder.com/600x800?text=AURA+ENTRY'}">
+                        <div class="card-meta">
+                            <h3 style="font-size: 1.2rem; margin: 5px 0;">${p.name}</h3>
+                            <p style="font-weight: 800; color:var(--olive);">₹${p.price}</p>
                         </div>
                     </div>`;
                 
                 adminList.innerHTML += `
-                    <div style="background:#111; padding:20px; border-radius:15px; border:1px solid #222;">
-                        <input type="text" value="${p.name}" onchange="products[${index}].name=this.value; renderStore();">
-                        <input type="number" value="${p.price}" onchange="products[${index}].price=this.value; renderStore();">
-                        <button class="btn btn-outline" style="width:100%; margin:10px 0;" onclick="document.getElementById('f-${index}').click()">UPLOAD IMAGE</button>
+                    <div style="background:var(--glass); padding:30px; border-radius:20px; border:1px solid var(--border);">
+                        <input type="text" value="${p.name}" placeholder="Product Name" oninput="products[${index}].name=this.value">
+                        <input type="number" value="${p.price}" placeholder="Price" oninput="products[${index}].price=this.value">
+                        <textarea placeholder="Description" oninput="products[${index}].desc=this.value">${p.desc}</textarea>
+                        <button class="btn btn-outline" style="width:100%; margin-bottom:10px;" onclick="document.getElementById('f-${index}').click()">Change Photo</button>
                         <input type="file" id="f-${index}" style="display:none;" onchange="handleAdminUpload(this, ${index})">
-                        <button class="btn btn-outline" style="width:100%;" onclick="products.splice(${index},1); renderStore();">DELETE</button>
+                        <button class="btn btn-outline" style="width:100%; border-color:var(--pink); color:var(--pink);" onclick="products.splice(${index},1); renderStore();">Discard Entry</button>
                     </div>`;
             });
         }
@@ -203,24 +212,21 @@
         window.openProductPage = (index) => {
             const p = products[index];
             document.getElementById('product-content').innerHTML = `
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:50px;">
-                    <div><img src="${p.imgs[0]}" style="width:100%; border-radius:20px;"></div>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:60px;">
+                    <img src="${p.imgs[0] || 'https://via.placeholder.com/600x800'}" style="width:100%; border-radius:30px; border: 1px solid var(--border);">
                     <div>
-                        <h1 style="font-family:'Syncopate'; font-size:2rem; margin-bottom:10px;">${p.name}</h1>
-                        <h2 style="color:var(--accent); margin-bottom:30px;">₹${p.price}</h2>
-                        
-                        <div style="background:#111; padding:25px; border-radius:15px;">
-                            <h4 style="font-size:10px; margin-bottom:15px; letter-spacing:2px;">SELECT PAYMENT METHOD</h4>
-                            <div class="pay-tabs">
-                                <div class="pay-tab active" onclick="setPay('upi', this)">UPI</div>
-                                <div class="pay-tab" onclick="setPay('card', this)">CARD</div>
-                                <div class="pay-tab" onclick="setPay('cod', this)">COD</div>
+                        <h1 style="font-family:'Syncopate'; font-size:3rem; color:var(--olive);">${p.name}</h1>
+                        <p style="opacity:0.6; line-height:1.8; margin: 20px 0;">${p.desc}</p>
+                        <div style="background:var(--glass); padding:40px; border-radius:24px; border: 1px solid var(--border);">
+                            <h2 style="margin-bottom:20px;">₹${p.price}</h2>
+                            <div class="pay-selector">
+                                <div class="pay-option active" onclick="setPay('upi', this)">UPI</div>
+                                <div class="pay-option" onclick="setPay('card', this)">CARD</div>
+                                <div class="pay-option" onclick="setPay('cod', this)">COD</div>
                             </div>
-                            <div id="pay-fields">
-                                <input type="text" id="cust-name" placeholder="FULL NAME">
-                                <textarea id="cust-addr" placeholder="SHIPPING ADDRESS"></textarea>
-                            </div>
-                            <button class="btn btn-accent" style="width:100%; margin-top:20px;" onclick="checkout(${index})">COMPLETE ORDER</button>
+                            <input type="text" id="c-name" placeholder="SHIPPING NAME">
+                            <textarea id="c-addr" placeholder="SHIPPING ADDRESS"></textarea>
+                            <button class="btn btn-olive" style="width:100%; margin-top:20px;" onclick="checkout(${index})">Secure Checkout</button>
                         </div>
                     </div>
                 </div>`;
@@ -228,24 +234,27 @@
         };
 
         window.setPay = (type, el) => {
-            document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.pay-option').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
             window.selectedPay = type;
         };
 
         window.checkout = (index) => {
             const p = products[index];
-            if(!document.getElementById('cust-addr').value) return alert("Address Required");
-            
-            if(window.selectedPay === 'upi') {
+            if(!document.getElementById('c-addr').value) return alert("Shipping address required.");
+            if(window.selectedPay === 'upi' || !window.selectedPay) {
                 window.location.href = `upi://pay?pa=9099090334@fam&pn=AURA%20EXOTIX&am=${p.price}&cu=INR`;
             } else {
-                alert("Order Placed Successfully via " + (window.selectedPay || 'Card').toUpperCase());
+                alert("Order Logged via " + window.selectedPay.toUpperCase());
             }
         };
 
         window.closeProductPage = () => document.getElementById('product-page').style.display = 'none';
-        window.toggleAdmin = () => { const ap = document.getElementById('admin-panel'); ap.style.display = (ap.style.display==='block')?'none':'block'; };
+        window.toggleAdmin = () => { 
+            const ap = document.getElementById('admin-panel'); 
+            ap.style.display = (ap.style.display==='block')?'none':'block'; 
+            renderStore();
+        };
         renderStore();
     </script>
 </body>
