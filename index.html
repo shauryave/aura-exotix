@@ -3,119 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA EXOTIX | Royal Cyber Streetwear</title>
+    <title>AURA EXOTIX | Streetwear Elite</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&family=Syncopate:wght@700&display=swap');
 
         :root { 
             --green: #39ff14; --purple: #bc13fe; --gold: #ffd700; --red: #ff0000;
-            --dark: #050505; --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
+            --dark: #020202; --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background: var(--dark); color: white; overflow-x: hidden; }
 
-        /* Site Banner */
-        #promo-banner {
-            display: none; padding: 10px; text-align: center; font-weight: 800;
-            font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-        }
+        #promo-banner { display: none; padding: 12px; text-align: center; font-weight: 800; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; z-index: 2000; position: relative; }
 
         .navbar { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 20px 8%; background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px);
+            padding: 20px 8%; background: rgba(2, 2, 2, 0.8); backdrop-filter: blur(20px);
             position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border);
         }
         .logo { 
             font-family: 'Syncopate', sans-serif; font-size: 1.2rem; letter-spacing: 5px; 
-            background: linear-gradient(90deg, var(--green), var(--purple), var(--gold), var(--red));
+            background: linear-gradient(90deg, var(--green), var(--purple), var(--gold));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer;
         }
 
         .page-view { display: none; padding: 60px 8%; min-height: 85vh; }
-        .page-view.active { display: block; animation: slideUp 0.6s ease-out; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .page-view.active { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
-        .card { background: var(--glass); border-radius: 24px; overflow: hidden; border: 1px solid var(--border); transition: 0.5s; cursor: pointer; position: relative; }
-        .card img { width: 100%; height: 480px; object-fit: cover; }
-        .card-meta { padding: 25px; background: linear-gradient(to top, rgba(0,0,0,1), transparent); position: absolute; bottom: 0; width: 100%; }
-
-        .btn { padding: 14px 30px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 11px; letter-spacing: 2px; }
-        .btn-gold { background: var(--gold); color: #000; }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: white; }
-
-        #admin-panel { display: none; position: fixed; inset: 0; background: var(--dark); z-index: 5000; padding: 50px 8%; overflow-y: auto; }
-        input, textarea, select { width: 100%; padding: 18px; margin: 12px 0; background: #0f0f0f; border: 1px solid var(--border); color: white; border-radius: 12px; outline: none; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .card { 
+            background: var(--glass); border-radius: 30px; overflow: hidden; 
+            border: 1px solid var(--border); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            position: relative; height: 550px; cursor: pointer;
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--gold); }
+        .card img { width: 100%; height: 100%; object-fit: cover; }
         
-        .pay-option { padding: 15px; border: 1px solid var(--border); border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; font-size: 11px; font-weight: 800; }
-        .pay-option.active { border-color: var(--green); color: var(--green); background: rgba(57, 255, 20, 0.1); }
-        .user-pfp { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--gold); cursor: pointer; }
+        .stock-badge {
+            position: absolute; top: 20px; right: 20px; padding: 8px 15px; border-radius: 50px;
+            font-size: 10px; font-weight: 800; letter-spacing: 1px;
+        }
+        .stock-low { background: var(--red); color: white; animation: pulse 1.5s infinite; }
+        .stock-out { background: #333; color: #999; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        .card-info { 
+            position: absolute; bottom: 0; width: 100%; padding: 30px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+        }
+
+        .size-chip { 
+            padding: 10px 18px; border: 1px solid var(--border); border-radius: 8px; 
+            cursor: pointer; font-size: 12px; font-weight: 800; transition: 0.3s;
+        }
+        .size-chip.active { background: var(--purple); border-color: var(--purple); color: white; }
+
+        .btn { 
+            padding: 16px 35px; border-radius: 12px; border: none; font-weight: 800; 
+            cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 11px; letter-spacing: 2px;
+        }
+        .btn-gold { background: var(--gold); color: #000; box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2); }
+        .btn-disabled { background: #222; color: #666; cursor: not-allowed; }
+        
+        #admin-panel { display: none; position: fixed; inset: 0; background: #000; z-index: 5000; padding: 50px 8%; overflow-y: auto; }
+        .admin-card { background: #0a0a0a; padding: 25px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 20px; }
+
+        .thumb-strip { display: flex; gap: 10px; margin: 20px 0; overflow-x: auto; padding-bottom: 10px; }
+        .thumb-strip img { width: 70px; height: 90px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; opacity: 0.6; }
+        .thumb-strip img:hover { opacity: 1; border-color: var(--gold); }
+        
+        input, textarea, select { width: 100%; padding: 15px; margin: 10px 0; background: #111; border: 1px solid var(--border); color: white; border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <div id="promo-banner"></div>
 
-    <div id="auth-overlay">
-        <div style="text-align:center; padding: 60px; background: var(--glass); border-radius: 40px; border: 1px solid var(--border); backdrop-filter: blur(30px);">
-            <h1 class="logo" style="font-size: 3.5rem; margin-bottom: 20px;">AURA EXOTIX</h1>
-            <button id="googleLogin" class="btn btn-gold" style="width: 100%; padding: 20px;">Unlock Vault</button>
-        </div>
+    <div id="auth-overlay" style="position:fixed; inset:0; background:#000; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <h1 class="logo" style="font-size: 3rem; margin-bottom: 30px;">AURA EXOTIX</h1>
+        <button id="googleLogin" class="btn btn-gold">AUTHENTICATE ACCESS</button>
     </div>
 
     <nav class="navbar">
         <a onclick="showPage('home')" class="logo">AURA EXOTIX</a>
-        <div style="display: flex; gap: 40px; align-items: center;">
-            <a onclick="showPage('home')" style="font-size: 11px; font-weight: 800; cursor: pointer;">HOME</a>
-            <a onclick="showPage('catalog')" style="font-size: 11px; font-weight: 800; cursor: pointer;">CATALOG</a>
-            <a onclick="showPage('contact')" style="font-size: 11px; font-weight: 800; cursor: pointer;">CONTACT</a>
-            <img id="userPfp" class="user-pfp" onclick="toggleAdmin()" style="display: none;">
+        <div style="display: flex; gap: 30px; align-items: center;">
+            <a onclick="showPage('catalog')" style="font-size: 11px; font-weight: 800; cursor: pointer; letter-spacing: 2px;">CATALOG</a>
+            <a onclick="showPage('contact')" style="font-size: 11px; font-weight: 800; cursor: pointer; letter-spacing: 2px;">CONTACT</a>
+            <img id="userPfp" style="width:35px; border-radius:50%; display:none; cursor:pointer;" onclick="toggleAdmin()">
         </div>
     </nav>
 
-    <div id="admin-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
-            <h1 class="logo">COMMAND CENTER</h1>
-            <button class="btn btn-gold" onclick="saveAndExit()">SAVE & EXIT</button>
-        </div>
-
-        <div style="background: var(--glass); padding: 30px; border-radius: 20px; border: 1px solid var(--gold); margin-bottom: 40px;">
-            <h3 style="color: var(--gold); margin-bottom: 20px;">BANNER SETTINGS</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
-                <input type="text" id="banner-text" placeholder="Banner Text (e.g. SALE NOW ON)" oninput="updateBanner()">
-                <select id="banner-color" onchange="updateBanner()">
-                    <option value="var(--purple)">Royal Purple</option>
-                    <option value="var(--green)">Neon Green</option>
-                    <option value="var(--gold)">Imperial Gold</option>
-                    <option value="var(--red)">Crimson Red</option>
-                </select>
-                <button class="btn btn-outline" onclick="toggleBannerUI()">Toggle Visibility</button>
-            </div>
-        </div>
-
-        <button class="btn btn-outline" style="margin-bottom:30px; border-color:var(--green); color:var(--green);" onclick="addProduct()">+ NEW PRODUCT ENTRY</button>
-        <div id="admin-list" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap:25px;"></div>
-    </div>
-
     <section id="home" class="page-view active">
-        <h1 style="font-family:'Syncopate'; font-size: clamp(3rem, 10vw, 8rem); line-height: 0.85;">AURA<br><span style="color:var(--gold)">EXOTIX</span></h1>
-        <button class="btn btn-gold" style="margin-top: 40px;" onclick="showPage('catalog')">Shop Collection</button>
+        <div style="height: 70vh; display: flex; flex-direction: column; justify-content: center;">
+            <p style="color:var(--purple); font-weight:800; letter-spacing:5px;">ARCHIVE COLLECTION</p>
+            <h1 style="font-family:'Syncopate'; font-size: clamp(3rem, 10vw, 7rem); line-height: 0.9; margin: 20px 0;">ROYAL<br><span style="color:var(--gold)">STREET</span></h1>
+            <button class="btn btn-gold" style="width: fit-content;" onclick="showPage('catalog')">Shop Collection</button>
+        </div>
     </section>
 
     <section id="catalog" class="page-view">
-        <h2 style="font-family:'Syncopate'; margin-bottom: 50px; font-size: 1.5rem; color: var(--green);">LIVE DROPS</h2>
+        <h2 style="font-family:'Syncopate'; margin-bottom: 40px; color: var(--green);">AVAILABLE DROPS</h2>
         <div class="grid" id="product-grid"></div>
     </section>
 
     <section id="contact" class="page-view">
-        <h2 style="font-family:'Syncopate';">CONTACT AURA EXOTIX</h2>
-        <p style="margin: 20px 0;">+91 9099090334 | shauryavalecha923@gmail.com</p>
+        <div style="max-width: 600px;">
+            <h2 style="font-family:'Syncopate'; margin-bottom: 40px;">DIRECT LINE</h2>
+            <div style="background: var(--glass); padding: 40px; border-radius: 30px; border: 1px solid var(--border);">
+                <p style="color: var(--gold); font-size: 10px; font-weight: 800; letter-spacing: 2px;">OFFICIAL WHATSAPP</p>
+                <h3 style="font-size: 1.5rem; margin: 10px 0 30px 0;">+91 9099090334</h3>
+                
+                <p style="color: var(--purple); font-size: 10px; font-weight: 800; letter-spacing: 2px;">MANAGEMENT EMAIL</p>
+                <p style="font-size: 1.1rem; margin-top: 10px;">shauryavalecha923@gmail.com</p>
+                <p style="font-size: 1.1rem;">shauryave1717@gmail.com</p>
+            </div>
+        </div>
     </section>
 
-    <div id="product-page" style="display: none; position: fixed; inset: 0; background: var(--dark); z-index: 2000; overflow-y: auto; padding: 60px 8%;">
-        <button class="btn btn-outline" onclick="closeProductPage()" style="margin-bottom: 40px; border-color: var(--purple);">← Exit Selection</button>
+    <div id="admin-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
+            <h1 class="logo">AURA COMMAND</h1>
+            <button class="btn btn-gold" onclick="saveAndExit()">SAVE & SYNC</button>
+        </div>
+        
+        <div class="admin-card">
+            <h4 style="color:var(--gold)">BANNER CONTROLS</h4>
+            <input type="text" id="b-text" placeholder="Promo Text" oninput="updateBanner()">
+            <select id="b-color" onchange="updateBanner()">
+                <option value="var(--purple)">Purple</option>
+                <option value="var(--green)">Green</option>
+                <option value="var(--red)">Red</option>
+            </select>
+            <button class="btn btn-outline" style="margin-top:10px" onclick="toggleBannerUI()">Toggle Visibility</button>
+        </div>
+
+        <button class="btn btn-outline" style="width:100%; border-color:var(--green); color:var(--green); margin-bottom:20px;" onclick="addProduct()">+ ADD NEW PRODUCT ENTRY</button>
+        <div id="admin-list"></div>
+    </div>
+
+    <div id="product-page" style="display:none; position:fixed; inset:0; background:#000; z-index:2000; overflow-y:auto; padding:60px 8%;">
+        <button class="btn btn-outline" onclick="closeProductPage()" style="margin-bottom:40px; border-color: var(--red); color: var(--red);">← BACK</button>
         <div id="product-content"></div>
     </div>
 
@@ -130,14 +160,14 @@
         const admins = ['shauryavalecha923@gmail.com', 'shauryave1717@gmail.com'];
 
         let products = [
-            { id: 1, name: 'Royal Cyber Hoodie', price: 2999, imgs: ['https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800'], desc: 'Velvet-lined neon luxury.' }
+            { id: 1, name: 'CYBER HOODIE 0.1', price: 2999, imgs: ['https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800'], sizes: ['M', 'L', 'XL'], desc: 'Heavyweight velvet-lined cotton.', stock: 3 }
         ];
 
-        let bannerSettings = { text: "WELCOME TO AURA EXOTIX", color: "var(--purple)", visible: false };
+        let activeBanner = { text: "LIMITED DROPS ONLY", color: "var(--purple)", visible: false };
 
         onAuthStateChanged(auth, (user) => {
             if(user) {
-                document.getElementById('auth-overlay').style.transform = 'translateY(-100%)';
+                document.getElementById('auth-overlay').style.display = 'none';
                 const pfp = document.getElementById('userPfp');
                 pfp.src = user.photoURL;
                 pfp.style.display = admins.includes(user.email) ? 'block' : 'none';
@@ -146,24 +176,6 @@
 
         document.getElementById('googleLogin').onclick = () => signInWithPopup(auth, provider);
 
-        window.updateBanner = () => {
-            bannerSettings.text = document.getElementById('banner-text').value;
-            bannerSettings.color = document.getElementById('banner-color').value;
-            applyBanner();
-        };
-
-        window.toggleBannerUI = () => {
-            bannerSettings.visible = !bannerSettings.visible;
-            applyBanner();
-        };
-
-        function applyBanner() {
-            const el = document.getElementById('promo-banner');
-            el.innerText = bannerSettings.text;
-            el.style.backgroundColor = bannerSettings.color;
-            el.style.display = bannerSettings.visible ? 'block' : 'none';
-        }
-
         window.showPage = (id) => {
             document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -171,53 +183,112 @@
         };
 
         window.addProduct = () => {
-            products.unshift({ id: Date.now(), name: 'Vault Entry', price: 0, imgs: [''], desc: 'New drop details...' });
+            products.unshift({ id: Date.now(), name: 'NEW DROP', price: 0, imgs: [], sizes: ['S', 'M', 'L', 'XL'], desc: 'Product Details...', stock: 10 });
             renderStore();
         };
 
-        window.saveAndExit = () => {
+        window.handleMultiUpload = (input, index) => {
+            const files = Array.from(input.files);
+            const urls = files.map(f => URL.createObjectURL(f));
+            products[index].imgs = [...products[index].imgs, ...urls];
             renderStore();
-            document.getElementById('admin-panel').style.display = 'none';
         };
 
-        function renderStore() {
+        window.renderStore = () => {
             const grid = document.getElementById('product-grid');
             const adminList = document.getElementById('admin-list');
             grid.innerHTML = adminList.innerHTML = "";
-            
-            products.forEach((p, index) => {
-                grid.innerHTML += `<div class="card" onclick="openProductPage(${index})">
-                    <img src="${p.imgs[0] || 'https://via.placeholder.com/600x800'}">
-                    <div class="card-meta">
-                        <h3 style="color: var(--gold);">${p.name}</h3>
-                        <p style="color:var(--green);">₹${p.price}</p>
-                    </div>
-                </div>`;
-                
-                adminList.innerHTML += `<div style="background:var(--glass); padding:20px; border-radius:15px; border:1px solid var(--border);">
-                    <input type="text" value="${p.name}" oninput="products[${index}].name=this.value">
-                    <input type="number" value="${p.price}" oninput="products[${index}].price=Number(this.value)">
-                    <button class="btn btn-outline" onclick="products.splice(${index},1); renderStore();">Remove</button>
-                </div>`;
+
+            products.forEach((p, i) => {
+                // Determine stock badge
+                let stockHTML = '';
+                if(p.stock <= 0) stockHTML = `<div class="stock-badge stock-out">SOLD OUT</div>`;
+                else if(p.stock < 5) stockHTML = `<div class="stock-badge stock-low">ONLY ${p.stock} LEFT</div>`;
+
+                grid.innerHTML += `
+                    <div class="card" onclick="openProductPage(${i})">
+                        ${stockHTML}
+                        <img src="${p.imgs[0] || 'https://via.placeholder.com/600x800?text=AURA+ENTRY'}">
+                        <div class="card-info">
+                            <h3 style="color:var(--gold); font-family:'Syncopate';">${p.name}</h3>
+                            <p style="color:var(--green); font-weight:800; margin-top:5px;">₹${p.price}</p>
+                        </div>
+                    </div>`;
+
+                adminList.innerHTML += `
+                    <div class="admin-card">
+                        <input type="text" value="${p.name}" oninput="products[${i}].name=this.value">
+                        <input type="number" placeholder="Price" value="${p.price}" oninput="products[${i}].price=Number(this.value)">
+                        <input type="number" placeholder="Stock Count" value="${p.stock}" oninput="products[${i}].stock=Number(this.value)">
+                        <textarea oninput="products[${i}].desc=this.value">${p.desc}</textarea>
+                        <input type="file" multiple onchange="handleMultiUpload(this, ${i})">
+                        <button class="btn btn-outline" style="width:100%; border-color:var(--red); color:var(--red); margin-top:10px;" onclick="products.splice(${i},1); renderStore()">Purge Product</button>
+                    </div>`;
             });
-        }
+        };
 
         window.openProductPage = (index) => {
             const p = products[index];
+            window.selectedSize = '';
+            const isSoldOut = p.stock <= 0;
+
             document.getElementById('product-content').innerHTML = `
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:50px;">
-                    <img src="${p.imgs[0]}" style="width:100%; border-radius:20px;">
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap:50px;">
                     <div>
-                        <h1 style="color:var(--gold);">${p.name}</h1>
-                        <h2 style="color:var(--green); margin: 20px 0;">₹${p.price}</h2>
-                        <button class="btn btn-gold" onclick="window.location.href='upi://pay?pa=9099090334@fam&pn=AURA%20EXOTIX&am=${p.price}&cu=INR'">Pay with UPI</button>
+                        <img id="main-view" src="${p.imgs[0] || ''}" style="width:100%; border-radius:20px; border:1px solid var(--border);">
+                        <div class="thumb-strip">
+                            ${p.imgs.map(img => `<img src="${img}" onclick="document.getElementById('main-view').src='${img}'">`).join('')}
+                        </div>
+                    </div>
+                    <div>
+                        <h1 style="font-family:'Syncopate'; font-size:3rem; color:var(--gold);">${p.name}</h1>
+                        <h2 style="color:var(--green); font-size:2rem; margin:20px 0;">₹${p.price}</h2>
+                        <p style="opacity:0.6; line-height:1.8; margin-bottom:30px;">${p.desc}</p>
+                        
+                        <p style="font-weight:800; font-size:10px; letter-spacing:2px; margin-bottom:15px;">SELECT SIZE</p>
+                        <div style="display:flex; gap:15px; margin-bottom:40px;">
+                            ${p.sizes.map(s => `<div class="size-chip" onclick="selectSizeUI(this, '${s}')">${s}</div>`).join('')}
+                        </div>
+                        
+                        ${isSoldOut ? 
+                            `<button class="btn btn-disabled" style="width:100%;">PROTOCOL: SOLD OUT</button>` : 
+                            `<button class="btn btn-gold" style="width:100%;" onclick="initPayment(${index})">CONFIRM PURCHASE (UPI)</button>`
+                        }
                     </div>
                 </div>`;
             document.getElementById('product-page').style.display = 'block';
         };
 
-        window.closeProductPage = () => document.getElementById('product-page').style.display = 'none';
+        window.selectSizeUI = (el, size) => {
+            document.querySelectorAll('#product-page .size-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            window.selectedSize = size;
+        };
+
+        window.initPayment = (i) => {
+            if(!window.selectedSize) return alert("SIZE SELECTION REQUIRED.");
+            const p = products[i];
+            window.location.href = `upi://pay?pa=9099090334@fam&pn=AURA%20EXOTIX&am=${p.price}&cu=INR&tn=Order_${p.name}_Size_${window.selectedSize}`;
+        };
+
         window.toggleAdmin = () => { document.getElementById('admin-panel').style.display = 'block'; renderStore(); };
+        window.saveAndExit = () => document.getElementById('admin-panel').style.display = 'none';
+        window.closeProductPage = () => document.getElementById('product-page').style.display = 'none';
+        
+        window.updateBanner = () => {
+            activeBanner.text = document.getElementById('b-text').value;
+            activeBanner.color = document.getElementById('b-color').value;
+            applyBanner();
+        };
+        window.toggleBannerUI = () => { activeBanner.visible = !activeBanner.visible; applyBanner(); };
+
+        function applyBanner() {
+            const b = document.getElementById('promo-banner');
+            b.innerText = activeBanner.text;
+            b.style.backgroundColor = activeBanner.color;
+            b.style.display = activeBanner.visible ? 'block' : 'none';
+        }
+
         renderStore();
     </script>
 </body>
